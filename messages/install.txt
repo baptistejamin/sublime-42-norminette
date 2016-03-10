@@ -1,0 +1,10 @@
+SublimeLinter-contrib-42-norminette
+-------------------------------
+This linter plugin for SublimeLinter provides an interface to 42-norminette.
+
+** IMPORTANT! **
+
+Before this plugin will activate, you *must*
+follow the installation instructions here:
+
+https://github.com/Baptiste JAMIN/SublimeLinter-contrib-42-norminette
