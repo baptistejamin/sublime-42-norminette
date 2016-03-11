@@ -25,7 +25,8 @@ class Norminette(Linter):
     regex = (
         r'^(?:(?P<error>Error)|(?P<warning>Warning))'
         r'.+?line (?P<line>\d+)+?'
-        r'(?P<message>.+)'
+        r'\s*\)?'
+        r':(?P<message>.+)$'
     )
 
     multiline = True
