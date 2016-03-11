@@ -10,10 +10,13 @@
 
 """This module exports the 42Norminette plugin class."""
 
-from SublimeLinter.lint import Linter, util
+import shlex
+from SublimeLinter.lint import Linter, persist
+import sublime
+import os
+import string
 
-
-class 42Norminette(Linter):
+class Norminette(Linter):
     """Provides an interface to norminette."""
 
     syntax = 'c'
