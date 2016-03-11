@@ -28,6 +28,7 @@ class Norminette(Linter):
         # in which case there is no line/col information, so that
         # part is optional.
         (?:(.+?(?P<line>\d+)))?
+        (?:(.+?(?P<col>\d+)))?
         (?:(?P<message>.+))
     '''
 
