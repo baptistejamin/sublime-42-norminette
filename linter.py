@@ -31,7 +31,8 @@ class Norminette(Linter):
         (?:(.+?(?P<col>\d+)))?
         (?:(?P<message>.+))
     '''
-
+    
+    line_col_base = (1, 0)
     multiline = True
     error_stream = util.STREAM_BOTH
     selectors = {}
