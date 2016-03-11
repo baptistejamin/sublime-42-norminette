@@ -22,17 +22,29 @@ class Norminette(Linter):
     syntax = 'c'
     executable = 'norminette'
 
-    regex = (
-        r'^(?:(?P<error>Error)|(?P<warning>Warning))'
-        r'.+?line (?P<line>\d+)+?'
-        r'\s*\)?'
-        r':(?P<message>.+)$'
-    )
+    regex = r'''(?xi)
+        ^^(?:(?P<error>Error)|(?P<warning>Warning))   # Error
+        # Norminette emits errors that pertain to the code as a whole,
+        # in which case there is no line/col information, so that
+        # part is optional.
+        (?:(.+?(?P<line>\d+)))?
+        (?:(?P<message>.+))
+    '''
 
     multiline = True
     error_stream = util.STREAM_BOTH
     selectors = {}
     defaults = {}
+
+    def split_match(self, match):
+
+        match, line, col, error, warning, message, near = super().split_match(match)
+
+        if line is None and message:
+            line = 0
+            col = 0
+
+        return match, line, col, error, warning, message, near
 
     def cmd(self):
         result = self.executable
