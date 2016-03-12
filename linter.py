@@ -11,7 +11,7 @@
 """This module exports the 42Norminette plugin class."""
 
 import shlex
-from SublimeLinter.lint import Linter, persist
+from SublimeLinter.lint import Linter, persist, util
 import sublime
 import os
 import string
