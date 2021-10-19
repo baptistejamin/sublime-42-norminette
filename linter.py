@@ -29,6 +29,7 @@ class Norminette(Linter):
         # part is optional.
         (?:(.+?(?P<line>\d+)))?
         (?:(.+?(?P<col>\d+)))?
+        (?:\)\:\s*)?
         (?:(?P<message>.+))
     '''
     
