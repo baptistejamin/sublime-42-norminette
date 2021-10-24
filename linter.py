@@ -42,6 +42,16 @@ class Norminette(Linter):
 
         match, line, col, error, warning, message, near = super().split_match(match)
 
+        if col > 0:
+            col -= 1
+            point = self.view.text_point(line, 0)
+            content = self.view.substr(self.view.line(point))
+            c = 0
+            while c < col and c < len(content):
+                if content[c] == '\t':
+                    col -= 3
+                c += 1
+
         if line is None and message:
             line = 0
             col = 0
