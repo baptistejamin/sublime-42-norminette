@@ -19,7 +19,6 @@ import string
 class Norminette(Linter):
     """Provides an interface to norminette."""
 
-    syntax = 'c'
     executable = 'norminette'
 
     regex = r'''(?xi)
@@ -36,8 +35,9 @@ class Norminette(Linter):
     line_col_base = (1, 0)
     multiline = True
     error_stream = util.STREAM_BOTH
-    selectors = {}
-    defaults = {}
+    defaults = {
+        'selector': 'source.c'
+    }
 
     def split_match(self, match):
 
