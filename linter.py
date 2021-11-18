@@ -32,7 +32,7 @@ class Norminette(Linter):
         (?:(?P<message>.+))
     '''
     
-    line_col_base = (1, 0)
+    line_col_base = (1, 1)
     multiline = True
     error_stream = util.STREAM_BOTH
     defaults = {
@@ -40,24 +40,17 @@ class Norminette(Linter):
     }
 
     def split_match(self, match):
+        error = super().split_match(match)
+        if error["message"] and error["line"] is None:
+            error["line"] = 1
+            error["col"] = 1
+        return error
 
-        match, line, col, error, warning, message, near = super().split_match(match)
-
+    def reposition_match(self, line, col, m, vv):
         if col > 0:
-            col -= 1
-            point = self.view.text_point(line, 0)
-            content = self.view.substr(self.view.line(point))
-            c = 0
-            while c < col and c < len(content):
-                if content[c] == '\t':
-                    col -= 3
-                c += 1
-
-        if line is None and message:
-            line = 0
-            col = 0
-
-        return match, line, col, error, warning, message, near
+            text = vv.select_line(line)
+            col -= text[:col].count("\t") * 3
+        return super().reposition_match(line, col, m, vv)
 
     def cmd(self):
         result = self.executable
