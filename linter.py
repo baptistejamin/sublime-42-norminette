@@ -19,8 +19,9 @@ import math
 
 class Norminette(Linter):
     """Provides an interface to norminette."""
+    cmd = "norminette ${file_on_disk}"
 
-    executable = 'norminette'
+    tempfile_suffix = "-"
 
     regex = r'''(?xi)
         ^^(?:(?P<error>Error)|(?P<warning>Warning))   # Error
@@ -60,8 +61,3 @@ class Norminette(Linter):
                 cr += 1
 
         return super().reposition_match(line, col, m, vv)
-
-    def cmd(self):
-        result = self.executable
-        return result + ' ' + sublime.active_window().active_view().file_name()
-
