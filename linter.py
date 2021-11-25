@@ -15,6 +15,7 @@ from SublimeLinter.lint import Linter, persist, util
 import sublime
 import os
 import string
+import math
 
 class Norminette(Linter):
     """Provides an interface to norminette."""
@@ -48,8 +49,16 @@ class Norminette(Linter):
 
     def reposition_match(self, line, col, m, vv):
         if col > 0:
-            text = vv.select_line(line)
-            col -= text[:col].count("\t") * 3
+            content = vv.select_line(line)
+            c = 0
+            cr = 0
+            while c < col and c < len(content):
+                if content[c] == '\t':
+                    col -= 3 - (math.ceil(cr / 4) * 4 - cr)
+                    cr += 3
+                c += 1
+                cr += 1
+
         return super().reposition_match(line, col, m, vv)
 
     def cmd(self):
