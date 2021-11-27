@@ -29,7 +29,7 @@ class Norminette(Linter):
         # in which case there is no line/col information, so that
         # part is optional.
         (?:(.+?(?P<line>\d+)))?
-        (?:(.+?(?P<col>\d+)))?
+        (?:(.+?(?P<col2>\d+)))?
         (?:\)\:\s*)?
         (?:(?P<message>.+))
     '''
@@ -45,18 +45,22 @@ class Norminette(Linter):
         error = super().split_match(match)
         if error["message"] and error["line"] is None:
             error["line"] = 1
-            error["col"] = 1
+            error["col2"] = 1
+        error["col"] = int(error["col2"])
         return error
 
     def reposition_match(self, line, col, m, vv):
+        col = int(m['col2'])
         if col > 0:
             content = vv.select_line(line)
             c = 0
             cr = 0
-            while c < col and c < len(content):
+            maxc = col
+            while c < maxc and c < len(content):
                 if content[c] == '\t':
-                    col -= 3 - (math.ceil(cr / 4) * 4 - cr)
-                    cr += 3
+                    spaces = (4 - math.ceil(cr % 4))
+                    col -= spaces
+                    cr += spaces
                 c += 1
                 cr += 1
 
