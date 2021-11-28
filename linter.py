@@ -50,7 +50,7 @@ class Norminette(Linter):
         return error
 
     def reposition_match(self, line, col, m, vv):
-        col = int(m['col2'])
+        col = int(m['col2']) - 1
         if col > 0:
             content = vv.select_line(line)
             c = 0
