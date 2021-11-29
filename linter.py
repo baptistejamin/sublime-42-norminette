@@ -34,7 +34,7 @@ class Norminette(Linter):
         (?:(?P<message>.+))
     '''
     
-    line_col_base = (1, 1)
+    line_col_base = (1, 0)
     multiline = True
     error_stream = util.STREAM_BOTH
     defaults = {
@@ -50,18 +50,19 @@ class Norminette(Linter):
         return error
 
     def reposition_match(self, line, col, m, vv):
-        col = int(m['col2']) - 1
+        col = int(m['col2'])
         if col > 0:
             content = vv.select_line(line)
             c = 0
             cr = 0
             maxc = col
-            while c < maxc and c < len(content):
+            while cr < maxc and c < len(content):
                 if content[c] == '\t':
                     spaces = (4 - math.ceil(cr % 4))
                     col -= spaces
                     cr += spaces
                 c += 1
                 cr += 1
+        col = max(min(col, len(content) - 1), 0)
 
         return super().reposition_match(line, col, m, vv)
