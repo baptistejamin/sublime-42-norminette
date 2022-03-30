@@ -55,14 +55,18 @@ class Norminette(Linter):
             content = vv.select_line(line)
             c = 0
             cr = 0
+            tab = 0
             maxc = col
             while cr < maxc and c < len(content):
                 if content[c] == '\t':
                     spaces = (4 - math.ceil(cr % 4))
                     col -= spaces
                     cr += spaces
+                    tab = 1
                 c += 1
                 cr += 1
+            if tab == 0:
+                col = col - 1
         col = max(min(col, len(content) - 1), 0)
 
         return super().reposition_match(line, col, m, vv)

@@ -9,9 +9,21 @@ int main(void)
 		return a;
 }
 //         ^---^--- 2 errors on `a`
+ededestaic int test(void)
+{
+
+}
 	static int test(void)
 {
 	return (0);
+}
+		   int test(void)
+{
+	return (0);
+}
+	static int test(void)
+{
+	return 0;
 }
 //         ^^^^--- 1 on error on `test`
 
